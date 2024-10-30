@@ -1,0 +1,21 @@
+---
+jobs:
+- name: dind
+  plan:
+  - task: simple-task
+    privileged: true
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: docker
+          tag: dind
+      run:
+        path: sh
+        args: 
+          - -exc
+          - |
+            dockerd >/dev/null 2>&1 < /dev/null &
+            sleep 15
+            docker run hello-world
